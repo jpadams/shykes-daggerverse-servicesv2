@@ -1,0 +1,7 @@
+{
+  "name": "dagger",
+  "sdk": "go",
+  "dependencies": [
+    "github.com/jpadams/shykes-daggerverse-servicesv2/supergit@a3bb478554fc00386f0cf388af3dd344a78c0fa3"
+  ]
+}
