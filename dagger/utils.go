@@ -68,13 +68,13 @@ func devWorkerConfig() string {
 	return builder.String()
 }
 
-func registry() *Container {
+func registry() *Service {
 	return dag.Pipeline("registry").Container().From("registry:2").
 		WithExposedPort(5000, ContainerWithExposedPortOpts{Protocol: Tcp}).
 		AsService()
 }
 
-func privateRegistry() *Container {
+func privateRegistry() *Service {
 	const htpasswd = "john:$2y$05$/iP8ud0Fs8o3NLlElyfVVOp6LesJl3oRLYoc3neArZKWX10OhynSC" //nolint:gosec
 	return dag.Pipeline("private registry").Container().From("registry:2").
 		WithNewFile("/auth/htpasswd", ContainerWithNewFileOpts{Contents: htpasswd}).

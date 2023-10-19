@@ -27,7 +27,7 @@ func (r *Remote) Tag(ctx context.Context, name string) (*RemoteTag, error) {
 	line, _, _ := strings.Cut(output, "\n")
 	commit, name := tagSplit(line)
 	return &RemoteTag{
-		Commit: commit,
+		CommitID: commit,
 		Name:   name,
 	}, nil
 }
@@ -72,7 +72,7 @@ func (r *Remote) Tags(ctx context.Context, opts RemoteTagOpts) ([]*RemoteTag, er
 		}
 		tags = append(tags, &RemoteTag{
 			Name:   name,
-			Commit: commit,
+			CommitID: commit,
 		})
 	}
 	return tags, nil
@@ -86,9 +86,9 @@ type RemoteTagOpts struct {
 
 type RemoteTag struct {
 	Name   string `json:"name"`
-	Commit string `json:"commit"`
+	CommitID string `json:"commit"`
 }
 
-func (rt *RemoteTag) ID() string {
-	return rt.Commit
+func (rt *RemoteTag) Commit() string {
+	return rt.CommitID
 }

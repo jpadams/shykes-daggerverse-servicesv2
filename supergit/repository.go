@@ -108,17 +108,17 @@ func (t *Tag) Tree() *Directory {
 func (r *Repository) Commit(id string) *Commit {
 	return &Commit{
 		Repository: r,
-		ID:         id,
+		CommitID:         id,
 	}
 }
 
 type Commit struct {
-	ID         string      `json:"id"`
+	CommitID         string      `json:"id"`
 	Repository *Repository `json:"repository"`
 }
 
 func (c *Commit) Tree() *Directory {
 	return c.Repository.
-		WithGitCommand([]string{"checkout", c.ID}).
+		WithGitCommand([]string{"checkout", c.CommitID}).
 		Worktree
 }

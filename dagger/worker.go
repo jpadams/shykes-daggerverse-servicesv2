@@ -219,7 +219,7 @@ func (w *Worker) Tests(ctx context.Context) error {
 	})
 
 	registrySvc := registry()
-	worker = worker.
+	workerSvc := worker.
 		WithServiceBinding("registry", registrySvc).
 		WithServiceBinding("privateregistry", privateRegistry()).
 		WithExposedPort(devWorkerListenPort, ContainerWithExposedPortOpts{Protocol: Tcp}).
@@ -228,7 +228,7 @@ func (w *Worker) Tests(ctx context.Context) error {
 			InsecureRootCapabilities: true,
 		}).AsService()
 
-	endpoint, err := worker.Endpoint(ctx, ContainerEndpointOpts{Port: devWorkerListenPort, Scheme: "tcp"})
+	endpoint, err := workerSvc.Endpoint(ctx, ServiceEndpointOpts{Port: devWorkerListenPort, Scheme: "tcp"})
 	if err != nil {
 		return fmt.Errorf("failed to get dev engine endpoint: %w", err)
 	}
@@ -263,7 +263,7 @@ func (w *Worker) Tests(ctx context.Context) error {
 		WithMountedDirectory(utilDirPath, testEngineUtils).
 		WithEnvVariable("_DAGGER_TESTS_ENGINE_TAR", filepath.Join(utilDirPath, "engine.tar")).
 		WithWorkdir("/app").
-		WithServiceBinding("dagger-engine", worker).
+		WithServiceBinding("dagger-engine", workerSvc).
 		WithServiceBinding("registry", registrySvc).
 		WithEnvVariable("CGO_ENABLED", cgoEnabledEnv).
 		WithMountedFile(cliBinPath, w.Engine.CLI(CLIOpts{})).
