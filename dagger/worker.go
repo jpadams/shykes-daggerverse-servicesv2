@@ -226,7 +226,7 @@ func (w *Worker) Tests(ctx context.Context) error {
 		WithMountedCache(workerDefaultStateDir, dag.CacheVolume("dagger-dev-engine-test-state")).
 		WithExec(nil, ContainerWithExecOpts{
 			InsecureRootCapabilities: true,
-		})
+		}).AsService()
 
 	endpoint, err := worker.Endpoint(ctx, ContainerEndpointOpts{Port: devWorkerListenPort, Scheme: "tcp"})
 	if err != nil {

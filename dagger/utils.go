@@ -71,7 +71,7 @@ func devWorkerConfig() string {
 func registry() *Container {
 	return dag.Pipeline("registry").Container().From("registry:2").
 		WithExposedPort(5000, ContainerWithExposedPortOpts{Protocol: Tcp}).
-		WithExec(nil)
+		AsService()
 }
 
 func privateRegistry() *Container {
@@ -82,5 +82,5 @@ func privateRegistry() *Container {
 		WithEnvVariable("REGISTRY_AUTH_HTPASSWD_REALM", "Registry Realm").
 		WithEnvVariable("REGISTRY_AUTH_HTPASSWD_PATH", "/auth/htpasswd").
 		WithExposedPort(5000, ContainerWithExposedPortOpts{Protocol: Tcp}).
-		WithExec(nil)
+		AsService()
 }
